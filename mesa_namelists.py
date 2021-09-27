@@ -311,9 +311,12 @@ class MESAdefaults(object):
 
     def __init__(self, mesa_dir=''):
 
-        self.mesa_dir = mesa_dir
-        if self.mesa_dir is None:
-            raise ValueError('MESA_DIR is not set')
+        try:
+            self.mesa_dir = os.environ['MESA_DIR']
+        except KeyError:
+            self.mesa_dir = mesa_dir
+            if self.mesa_dir == '':
+                raise ValueError('MESA_DIR is not set')
 
         self.groups = OrderedDict()
 
